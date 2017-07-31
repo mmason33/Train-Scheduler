@@ -1,3 +1,3 @@
-# Employee App
+# Train Scheduler
 
-An app to record employees, their pay, title and length at the company.
+JavaScript application using Google Firebase, jQuery and Moment.js
