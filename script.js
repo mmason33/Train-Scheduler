@@ -29,7 +29,7 @@ $(".btn-primary").on("click", function() {
 			startTime: startTimeInput,
 			frequency: frequencyInput
 		});  
-
+		$('input').val('');
     }
 
 	else {
