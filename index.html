@@ -16,24 +16,19 @@
 	<div class="panel panel-primary">
 	 <div class="panel-heading">Current Trains</div>
 	  <div class="panel-body">
-		<div class="row">
-			<div class="col-md-2" id="name">
-				<p>Train Name</p>
-			</div>
-			<div class="col-md-2" id="destination">
-				<p>Destination</p>
-			</div>
-			<div class="col-md-2" id="frequency">
-				<p>Frequency (min)</p>
-			</div>
-			<div class="col-md-2" id="arrival">
-				<p>Next Arrival</p>
-			</div>
-			<div class="col-md-2" id="minutes-away">
-				<p>Minutes Away</p>
-			</div>
-			<hr>
-		</div>
+		 <table class="table table-striped">
+			<thead>
+				<tr>
+				<th>Train Name</th>
+				<th>Destination</th>
+				<th>Frequency (min)</th>
+				<th>Next Arrival</th>
+				<th>Minutes Away</th>
+				</tr>
+			</thead>
+			<tbody id="trainRows">
+			</tbody>
+		</table>
 	  </div>
 	 </div>
 	</div>
@@ -49,15 +44,15 @@
 		    </div>
 		    <div class="form-group">
 		      <label>Destination</label>
-		      <input type="text" class="form-control role">
+		      <input type="text" class="form-control destination">
 		    </div>
 		    <div class="form-group">
 		      <label>First Train Time (HH:mm - military time)</label>
-		      <input type="text" class="form-control start-date">
+		      <input type="text" class="form-control first-time">
 		    </div>
 		    <div class="form-group">
 		      <label>Frequency (min)</label>
-		      <input type="text" class="form-control rate">
+		      <input type="text" class="form-control frequency">
 		    </div>		    		    
 		    <button type="submit" class="btn btn-primary">Submit</button>
 		</form>

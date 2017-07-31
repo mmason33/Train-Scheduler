@@ -1,4 +1,3 @@
-  // Initialize Firebase
   var config = {
     apiKey: "AIzaSyDjikRfJ5KOUaz1T-EOPB41suVXBwoKVIc",
     authDomain: "uci-project-964c8.firebaseapp.com",
@@ -12,37 +11,57 @@
 
   var database = firebase.database();
 
-$('.btn-primary').click( function (e) {
+$(".btn-primary").on("click", function() {
 
-	e.preventDefault();
-	var name = $('.name').val().trim();
-	var role = $('.role').val().trim();
-	var startDate = $('.start-date').val().trim();
-	var rate = $('.rate').val().trim();
+	var trainNameInput = $('.name').val().trim();
+	var destinationInput = $('.destination').val().trim();
+	var startTimeInput = $('.first-time').val().trim();
+	var frequencyInput = $('.frequency').val().trim();
 
-	database.ref().push({
-		name: name,
-		role: role,
-		startDate: startDate,
-		rate: rate,
-		dateAdded: firebase.database.ServerValue.TIMESTAMP
-	});
+	if( trainNameInput != "" &&
+		destinationInput != "" &&
+		startTimeInput != "" &&
+		frequencyInput != "" ){
 
-	$('input').val('');
+		database.ref().push({
+			trainName: trainNameInput,
+			destination: destinationInput,
+			startTime: startTimeInput,
+			frequency: frequencyInput
+		});  
 
-});
+    }
 
+	else {
+		return false;
+	}
 
-database.ref().on("child_added", function(snapshot){
-	$("#name").append('<p>'+ snapshot.val().name +'</p>');
-	$("#role").append('<p>'+ snapshot.val().role +'</p>');
-	$("#date").append('<p>'+ snapshot.val().startDate +'</p>');
-	$("#rate").append('<p>'+ snapshot.val().rate +'</p>');
-	var date1 = moment(snapshot.val().startDate, "DD/MM/YYYY");
-	console.log(date1);
-	var diff = moment().diff(date1,"months");
-	console.log(diff);
-	$("#monthsworked").append('<p>' + diff + '</p>')
-	var total = diff * parseInt(snapshot.val().rate)
-	$("#totalbilled").append('<p>' + total + '</p>')
+	return false;
 })
+
+function AutoRefresh( t ) {
+	setTimeout("location.reload(true);", t);
+}
+
+database.ref().on("child_added", function(childSnapshot) {
+
+	var $trainBody = $('#trainRows');
+	var $trainRow = $('<tr>');
+	var $trainName = $('<td>').html(childSnapshot.val().trainName).appendTo($trainRow);
+	var $destination = $('<td>').html(childSnapshot.val().destination).appendTo($trainRow);
+	var $frequency = $('<td>').html(childSnapshot.val().frequency).appendTo($trainRow);	
+	
+	var frequency = childSnapshot.val().frequency;
+	var startTime = moment(childSnapshot.val().startTime, "hh:mm").subtract(1, "years");		
+	var minAway = frequency - (moment().diff(moment(startTime), "minutes") % frequency);
+	
+	var nextTrain = $('<td>').html(moment(moment().add(minAway, "minutes")).format("hh:mm")).appendTo($trainRow);
+	var minutesAway = $('<td>').html(minAway).appendTo($trainRow);
+		
+	$trainRow.appendTo($trainBody);
+
+
+}, function(errorObject) {
+
+	console.log("Errors handled: " + errorObject.code);
+});
