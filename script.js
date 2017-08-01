@@ -37,11 +37,7 @@ $(".btn-primary").on("click", function() {
 	}
 
 	return false;
-})
-
-function AutoRefresh( t ) {
-	setTimeout("location.reload(true);", t);
-}
+});
 
 database.ref().on("child_added", function(childSnapshot) {
 
